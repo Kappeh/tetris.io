@@ -132,6 +132,9 @@ function getNextTetromino()
 {
 	if(currentTetromino)
 		currentTetromino.destroy();
+
+	testLines();
+	
 	var index = Math.floor(Math.random() * 7);
 	new Tetromino(index);
 }

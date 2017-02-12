@@ -1,5 +1,6 @@
 var width = 1500, height = 800;
 var canvas, ctx;
+var dropSpeed = 30;
 
 function createCanvas()
 {
@@ -12,6 +13,8 @@ function createCanvas()
 
 	document.body.appendChild(canvas);
 }
+
+var currentFrame = 0;
 
 function draw()
 {
@@ -46,6 +49,13 @@ function draw()
 			if(index)
 				drawMino(x, y, tetrominoColours[index - 1]);
 		}
+	}
+
+	currentFrame++;
+	if(currentFrame	> dropSpeed)
+	{
+		currentFrame = 0;
+		drop();
 	}
 
 	currentTetromino.draw();

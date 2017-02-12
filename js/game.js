@@ -1,5 +1,4 @@
 var gridArray = [];
-var dropSpeed = 30;
 
 var keys =
 {
@@ -25,6 +24,17 @@ function getGridState(x, y)
 	if(x >= 0 && x < 10 && y >= 0 && y < 20)
 		return gridArray[y * 10 + x];
 	return null;
+}
+
+function setGridState(x, y, value)
+{
+	//out of bound prevention
+	if(x >= 0 && x < 10 && y >= 0 && y < 20)
+	{
+		gridArray[y * 10 + x] = value;
+		return true;
+	}
+	return false;
 }
 
 //listenes for keypress
@@ -87,4 +97,38 @@ function right()
 function left()
 {
 	currentTetromino.move(-1, 0);
+}
+
+function testLines()
+{
+	var lines = 0;
+	for(var y = 0;y < 20;y++)
+	{
+		var line = true;
+
+		for(var x = 0;x < 10;x++)
+		{
+			if(getGridState(x, y) == 0)
+			{
+				line = false;
+				break;
+			}
+		}
+
+		if(line)
+		{
+			lines++;
+			breakLine(y);
+		}
+	}
+	console.log(lines);
+}
+
+function breakLine(line)
+{
+	for(var y = line;y > 0;y -= 1)
+	{
+		for(var x = 0;x < 10;x ++)
+			setGridState(x, y, getGridState(x, y - 1));
+	}
 }
