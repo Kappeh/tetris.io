@@ -49,5 +49,5 @@ function drawMino(x, y, colour)
 window.onload = createCanvas();
 
 //30fps drawloop
-getNextTetromino();
+init();
 setInterval(draw, 1000/30);

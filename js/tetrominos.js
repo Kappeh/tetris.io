@@ -131,7 +131,7 @@ var isValidPosition = function(posx, posy, minos, size)
 			if(!minos[size * y + x])
 				continue;
 
-			if(!getGridState(x + posx, y + posy))
+			if(getGridState(x + posx, y + posy) != 0)
 				return false;
 		}
 	}
