@@ -23,7 +23,7 @@ function getGridState(x, y)
 {
 	//out of bound prevention
 	if(x >= 0 && x < 10 && y >= 0 && y < 20)
-		return gridArray[y * 20 + x];
+		return gridArray[y * 10 + x];
 	return null;
 }
 
