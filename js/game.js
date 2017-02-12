@@ -38,57 +38,53 @@ window.addEventListener("keyup", function(e){
 function keyUpdate(e, state)
 {
 	//filters keypress and updates relevant value
-	if(e.keyCode == 87)
+	if(e.keyCode == 87 || e.keyCode == 38)
 	{
-		//W has been pressed
+		//W or Up has been pressed
 		keys.rotate = state;
 		if(state)
-			currentTetromino.rotate();
+			rotate();
 	}
-	else if(e.keyCode == 65)
+	else if(e.keyCode == 65 || e.keyCode == 37)
 	{
-		//A has been pressed
+		//A or Left has been pressed
 		keys.moveLeft = state;
 		if(state)
-			currentTetromino.move(-1, 0);
+			left();
 	}
-	else if(e.keyCode == 83)
+	else if(e.keyCode == 83 || e.keyCode == 40)
 	{
-		//S has been pressed
+		//S or Down has been pressed
 		keys.drop = state;
 		if(state)
-			currentTetromino.move(0, 1);
+			drop();
 	}
-	else if(e.keyCode == 68)
+	else if(e.keyCode == 68 || e.keyCode == 39)
 	{
-		//D has been pressed
+		//D or Right has been pressed
 		keys.moveRight = state;
 		if(state)
-			currentTetromino.move(1, 0);
-	}
-	else if(e.keyCode == 38)
-	{
-		//Up arrow has been pressed
-		keys.rotate = state;
-	}
-	else if(e.keyCode == 37)
-	{
-		//Left arrow has been pressed
-		keys.moveLeft = state;
-	}
-	else if(e.keyCode == 40)
-	{
-		//Down arrow has been pressed
-		keys.drop = state;
-	}
-	else if(e.keyCode == 39)
-	{
-		//Right arrow has been pressed
-		keys.moveRight = state;
+			right();
 	}
 }
 
-function update()
+function drop()
 {
-	//updates currect tetromino
+	if(!currentTetromino.move(0, 1))
+		getNextTetromino();
+}
+
+function rotate()
+{
+	currentTetromino.rotate();
+}
+
+function right()
+{
+	currentTetromino.move(1, 0);
+}
+
+function left()
+{
+	currentTetromino.move(-1, 0);
 }

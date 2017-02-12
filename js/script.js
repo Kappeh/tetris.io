@@ -37,6 +37,17 @@ function draw()
 		ctx.lineTo(x * 30 + 600, 700);
 		ctx.stroke();
 	}
+
+	for(var x = 0;x < 10;x++)
+	{
+		for(var y = 0;y < 20;y++)
+		{
+			var index = getGridState(x, y);
+			if(index)
+				drawMino(x, y, tetrominoColours[index - 1]);
+		}
+	}
+
 	currentTetromino.draw();
 }
 

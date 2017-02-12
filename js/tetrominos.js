@@ -50,6 +50,7 @@ var tetromino_Square =
 	 1, 1];
 
 var tetrominos = [tetromino_Long, tetromino_L, tetromino_J, tetromino_S, tetromino_Z, tetromino_T, tetromino_Square];
+var tetrominoColours = ["#f55", "#5f5", "#55f", "#ff5", "#f5f", "#5ff", "#555"];
 
 var Tetromino = function(index)
 {
@@ -58,8 +59,10 @@ var Tetromino = function(index)
 		y: 0
 	};
 
+	this.index = index;
+
 	this.minos = tetrominos[index];
-	this.colour = "#f55";
+	this.colour = tetrominoColours[index];
 
 	if(index == 0)
 		this.rotationMatrix = rotation4x4;
@@ -113,10 +116,22 @@ Tetromino.prototype.rotate = function()
 	}
 	return false;
 }
+Tetromino.prototype.destroy = function()
+{
+	for(var x = 0;x < this.size;x++)
+	{
+		for(var y = 0;y < this.size;y++)
+		{
+			if(this.minos[y * this.size + x])
+				gridArray[(this.pos.y + y) * 10 + this.pos.x + x ] = this.index + 1;
+		}
+	}
+}
 
 function getNextTetromino()
 {
-	//currentTetromino.destroy();
+	if(currentTetromino)
+		currentTetromino.destroy();
 	var index = Math.floor(Math.random() * 7);
 	new Tetromino(index);
 }
