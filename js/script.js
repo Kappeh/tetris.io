@@ -37,7 +37,6 @@ function draw()
 		ctx.lineTo(x * 30 + 600, 700);
 		ctx.stroke();
 	}	
-
 }
 
 window.onload = createCanvas();
