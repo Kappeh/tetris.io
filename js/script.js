@@ -36,10 +36,18 @@ function draw()
 		ctx.moveTo(x * 30 + 600, 100);
 		ctx.lineTo(x * 30 + 600, 700);
 		ctx.stroke();
-	}	
+	}
+	currentTetromino.draw();
+}
+
+function drawMino(x, y, colour)
+{
+	ctx.fillStyle = colour;
+	ctx.fillRect(x * 30 + 600, y * 30 + 100, 30, 30);
 }
 
 window.onload = createCanvas();
 
 //30fps drawloop
+getNextTetromino();
 setInterval(draw, 1000/30);
