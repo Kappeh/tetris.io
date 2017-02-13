@@ -1,9 +1,11 @@
 html, body
 {
 	background: #111;
+	text-align: center;
 }
 
 canvas
 {
+	margin: 0 auto;
 	border: 1px solid #fff;
 }
