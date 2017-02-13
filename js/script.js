@@ -69,6 +69,7 @@ function drawMino(x, y, colour)
 
 window.onload = createCanvas();
 
-//30fps drawloop
+//Initializes game
 init();
+//30fps drawloop
 setInterval(draw, 1000/30);

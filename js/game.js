@@ -1,12 +1,6 @@
 var gridArray = [];
-
-var keys =
-{
-	moveLeft: false,
-	moveRight: false,
-	rotate: false,
-	drop: false
-}
+var score;
+var lines;
 
 function init()
 {
@@ -14,6 +8,9 @@ function init()
 	for(var x = 0;x < 10;x++)
 		for(var y = 0;y < 20;y++)
 			gridArray.push(0);
+
+	score = 0;
+	lines = 0;
 
 	getNextTetromino();
 }
@@ -51,28 +48,24 @@ function keyUpdate(e, state)
 	if(e.keyCode == 87 || e.keyCode == 38)
 	{
 		//W or Up has been pressed
-		keys.rotate = state;
 		if(state)
 			rotate();
 	}
 	else if(e.keyCode == 65 || e.keyCode == 37)
 	{
 		//A or Left has been pressed
-		keys.moveLeft = state;
 		if(state)
 			left();
 	}
 	else if(e.keyCode == 83 || e.keyCode == 40)
 	{
 		//S or Down has been pressed
-		keys.drop = state;
 		if(state)
 			drop();
 	}
 	else if(e.keyCode == 68 || e.keyCode == 39)
 	{
 		//D or Right has been pressed
-		keys.moveRight = state;
 		if(state)
 			right();
 	}
@@ -101,7 +94,7 @@ function left()
 
 function testLines()
 {
-	var lines = 0;
+	var lineCount = 0;
 	for(var y = 0;y < 20;y++)
 	{
 		var line = true;
@@ -117,11 +110,12 @@ function testLines()
 
 		if(line)
 		{
-			lines++;
+			lineCount++;
 			breakLine(y);
 		}
 	}
-	console.log(lines);
+	score += getScore(lineCount);
+	lines += lineCount;
 }
 
 function breakLine(line)
@@ -131,4 +125,20 @@ function breakLine(line)
 		for(var x = 0;x < 10;x ++)
 			setGridState(x, y, getGridState(x, y - 1));
 	}
+}
+
+function getScore(lines)
+{
+	var value = 0;
+
+	if(lines > 3)
+		value += 400;
+	if(lines > 2)
+		value += 200;
+	if(lines > 1)
+		value += 100;
+	if(lines > 0)
+		value += 100;
+
+	return value;
 }
