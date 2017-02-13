@@ -50,7 +50,7 @@ var textures = [];
 for(var x = 0;x < 7;x++)
 {
 	var image = new Image();
-	image.src = "./minos/mino" + x + ".png";
+	image.src = "./textures/mino" + x + ".png";
 	textures.push(image);
 }
 

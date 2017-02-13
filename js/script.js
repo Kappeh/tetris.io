@@ -26,28 +26,21 @@ function draw()
 	ctx.fillRect(0, 0, width, height);
 
 	//Draws board
-	ctx.fillStyle = "#fff";
-	ctx.fillRect(600, 100, 300, 600);
+	var background = new Image();
+	background.src = "./textures/background.png";
+	ctx.drawImage(background, 600, 100, 300, 600);
 
-	ctx.strokeStyle = "#aaa";
+	//Draws border
+	ctx.strokeStyle = "#fff";
+	ctx.beginPath();
+	ctx.moveTo(600, 100);
+	ctx.lineTo(900, 100);
+	ctx.lineTo(900, 700);
+	ctx.lineTo(600, 700);
+	ctx.lineTo(600, 100);
+	ctx.stroke();
 
-
-	//Draws grid
-	for(var y = 1;y < 20;y++)
-	{
-		ctx.beginPath();
-		ctx.moveTo(600, y * 30 + 100);
-		ctx.lineTo(900, y * 30 + 100);
-		ctx.stroke();
-	}
-
-	for(var x = 1;x < 10;x++)
-	{
-		ctx.beginPath();
-		ctx.moveTo(x * 30 + 600, 100);
-		ctx.lineTo(x * 30 + 600, 700);
-		ctx.stroke();
-	}
+	ctx.strokeStyle = "#555";
 
 	//Draws dropped pieces
 	for(var x = 0;x < 10;x++)
