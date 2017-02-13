@@ -18,13 +18,18 @@ var currentFrame = 0;
 
 function draw()
 {
-	//draws shit
-	//board
+	//Clears out last frame
+	ctx.fillStyle = "#111";
+	ctx.fillRect(0, 0, width, height);
+
+	//Draws board
 	ctx.fillStyle = "#fff";
 	ctx.fillRect(600, 100, 300, 600);
 
 	ctx.strokeStyle = "#aaa";
 
+
+	//Draws grid
 	for(var y = 1;y < 20;y++)
 	{
 		ctx.beginPath();
@@ -41,6 +46,7 @@ function draw()
 		ctx.stroke();
 	}
 
+	//Draws dropped pieces
 	for(var x = 0;x < 10;x++)
 	{
 		for(var y = 0;y < 20;y++)
@@ -58,13 +64,32 @@ function draw()
 		drop();
 	}
 
+	//Draws dropping piece
 	currentTetromino.draw();
+	//Draws held piece
+	if(holdTetromino)
+		holdTetromino.draw();
+	//Draw queued pieces
+	for(var x = 0;x < 3;x++)
+		queue[x].draw();
 }
 
 function drawMino(x, y, colour)
 {
 	ctx.fillStyle = colour;
 	ctx.fillRect(x * 30 + 600, y * 30 + 100, 30, 30);
+}
+
+function drawHeld(x, y, colour)
+{
+	ctx.fillStyle = colour;
+	ctx.fillRect(x * 30 + 450, y * 30 + 130, 30, 30);
+}
+
+function drawQueue(x, y, colour, index)
+{
+	ctx.fillStyle = colour;
+	ctx.fillRect(x * 30 + 930, y * 30 + index * 90 + 130, 30, 30);	
 }
 
 window.onload = createCanvas();

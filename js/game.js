@@ -3,6 +3,7 @@ var score;
 var lines;
 var holdTetromino;
 var holdPossible = true;
+var queue = [];
 
 var keys =
 {
@@ -21,6 +22,9 @@ function init()
 
 	score = 0;
 	lines = 0;
+
+	for(var x = 2;x < 5;x++)
+		queue.push(new Tetromino(Math.floor(Math.random() * 7), x));
 
 	getNextTetromino();
 }
@@ -98,21 +102,24 @@ function drop()
 
 function hold()
 {
-	if (! holdPossible)
+	if (!holdPossible)
 		return;
 
-	if (! holdTetromino)
+	if (!holdTetromino)
 	{
-		holdTetromino = currentTetromino.index;
+		holdTetromino = currentTetromino;
+		holdTetromino.reset();
 		getNextTetromino();
 	}
 	else
 	{
-		var tempIndex = currentTetromino.index;
-		getNextTetromino(holdTetromino);
-		holdTetromino = tempIndex;
+		var temp = currentTetromino;
+		temp.reset();
+		getNextTetromino(holdTetromino.index);
+		holdTetromino = temp;
 	}
 
+	holdTetromino.type = 1;
 	holdPossible = false;
 }
 

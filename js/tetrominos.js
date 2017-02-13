@@ -41,9 +41,9 @@ var tetromino_Z =
 	 0, 0, 0];
 
 var tetromino_T =
-	[0, 0, 0,
+	[0, 1, 0,
 	 1, 1, 1,
-	 0, 1, 0];
+	 0, 0, 0];
 
 var tetromino_Square =
 	[1, 1,
@@ -52,17 +52,20 @@ var tetromino_Square =
 var tetrominos = [tetromino_Long, tetromino_L, tetromino_J, tetromino_S, tetromino_Z, tetromino_T, tetromino_Square];
 var tetrominoColours = ["#f55", "#5f5", "#55f", "#ff5", "#f5f", "#5ff", "#555"];
 
-var Tetromino = function(index)
+//type 0: falling, 1: hold, 2-4: queue
+var Tetromino = function(index, type)
 {
 	this.pos = {
 		x: 4,
 		y: 0
 	};
 
+	this.type = type;
+
 	this.index = index;
 
-	this.minos = tetrominos[index];
-	this.colour = tetrominoColours[index];
+	this.minos = tetrominos[this.index];
+	this.colour = tetrominoColours[this.index];
 
 	if(index == 0)
 		this.rotationMatrix = rotation4x4;
@@ -85,9 +88,25 @@ Tetromino.prototype.draw = function()
 		for(var y = 0;y < this.size;y++)
 		{
 			if(this.minos[y * this.size + x])
-				drawMino(this.pos.x + x, this.pos.y + y, this.colour);
+			{
+				if(this.type == 0)
+					drawMino(this.pos.x + x, this.pos.y + y, this.colour);
+				else if(this.type == 1)
+					drawHeld(x, y, this.colour);
+				else
+					drawQueue(x, y, this.colour, this.type - 2);
+			}
 		}
 	}
+}
+Tetromino.prototype.reset = function()
+{
+	//Resets position and rotation
+	this.minos = tetrominos[this.index];
+	this.pos = {
+		x: 4,
+		y: 0
+	};
 }
 Tetromino.prototype.move = function(x, y)
 {
@@ -130,8 +149,23 @@ function getNextTetromino(receivedIndex)
 {
 	testLines();
 
-	var index = receivedIndex ? receivedIndex : Math.floor(Math.random() * 7);
-	currentTetromino = new Tetromino(index);
+	if(receivedIndex != null)
+	{
+		currentTetromino = new Tetromino(receivedIndex, 0);
+		return;
+	}
+
+	currentTetromino = queue[0];
+	queue[0] = queue[1];
+	queue[1] = queue[2];
+	
+	var index = Math.floor(Math.random() * 7);
+	queue[2] = new Tetromino(index, 4);
+
+	currentTetromino.type = 0;
+	queue[0].type = 2;
+	queue[1].type = 3;
+	queue[2].type = 4;
 }
 
 var isValidPosition = function(posx, posy, minos, size)
