@@ -75,6 +75,18 @@ function draw()
 	//Draw queued pieces
 	for(var x = 0;x < 3;x++)
 		queue[x].draw();
+
+	//Draw scores
+	ctx.fillStyle = "#fff";
+	ctx.font = "30px Arial";
+	
+	ctx.fillText("High Score", 930, 490);
+	ctx.fillText("Current Score", 930, 530);
+	ctx.fillText("Lines", 930, 570);
+
+	ctx.fillText(": " + highScore, 1130, 490);
+	ctx.fillText(": " + score, 1130, 530);
+	ctx.fillText(": " + lines, 1130, 570);
 }
 
 function drawMino(x, y, colour)
