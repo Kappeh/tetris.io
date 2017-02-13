@@ -62,6 +62,8 @@ function draw()
 
 	//Draws dropping piece
 	currentTetromino.draw();
+	//Draws current piece's shadow
+	drawShadow();
 	//Draws held piece
 	if(holdTetromino)
 		holdTetromino.draw();
@@ -72,7 +74,7 @@ function draw()
 	//Draw scores
 	ctx.fillStyle = "#fff";
 	ctx.font = "30px Arial";
-	
+
 	ctx.fillText("High Score", 930, 490);
 	ctx.fillText("Current Score", 930, 530);
 	ctx.fillText("Lines", 930, 570);
@@ -95,6 +97,19 @@ function drawHeld(x, y, colour)
 function drawQueue(x, y, colour, index)
 {
 	ctx.drawImage(textures[colour], x * 30 + 930, y * 30 + index * 90 + 130, 30, 30);
+}
+
+function drawShadow()
+{
+	const currMino = currentTetromino;
+	var offset = 0;
+
+	while (isValidPosition(currMino.pos.x, currMino.pos.y + offset, currMino.minos, currMino.size))
+		offset ++;
+
+	ctx.globalAlpha = 0.2;
+	currMino.draw(currMino.pos.x, currMino.pos.y + offset - 1);
+	ctx.globalAlpha = 1;
 }
 
 window.onload = createCanvas();

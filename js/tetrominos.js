@@ -55,7 +55,6 @@ for(var x = 0;x < 7;x++)
 }
 
 var tetrominos = [tetromino_Long, tetromino_L, tetromino_J, tetromino_S, tetromino_Z, tetromino_T, tetromino_Square];
-var tetrominoColours = ["#f55", "#5f5", "#55f", "#ff5", "#f5f", "#5ff", "#555"];
 
 //type 0: falling, 1: hold, 2-4: queue
 var Tetromino = function(index, type)
@@ -85,8 +84,13 @@ var Tetromino = function(index, type)
 	else
 		this.size = 2;
 }
-Tetromino.prototype.draw = function()
+Tetromino.prototype.draw = function(x, y)
 {
+	var pos = {
+		x : x ? x : this.pos.x,
+		y : y ? y : this.pos.y
+	}
+
 	for(var x = 0;x < this.size;x++)
 	{
 		for(var y = 0;y < this.size;y++)
@@ -94,7 +98,7 @@ Tetromino.prototype.draw = function()
 			if(this.minos[y * this.size + x])
 			{
 				if(this.type == 0)
-					drawMino(this.pos.x + x, this.pos.y + y, this.index);
+					drawMino(pos.x + x, pos.y + y, this.index);
 				else if(this.type == 1)
 					drawHeld(x, y, this.index);
 				else
