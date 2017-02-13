@@ -1,6 +1,16 @@
 var gridArray = [];
 var score;
 var lines;
+var holdTetromino;
+var holdPossible = true;
+
+var keys =
+{
+	moveLeft: false,
+	moveRight: false,
+	rotate: false,
+	drop: false
+}
 
 function init()
 {
@@ -69,12 +79,41 @@ function keyUpdate(e, state)
 		if(state)
 			right();
 	}
+	else if (e.keyCode == 32){
+		hold();
+	}
 }
 
 function drop()
 {
 	if(!currentTetromino.move(0, 1))
+	{
+		if(currentTetromino)
+			currentTetromino.destroy();
+
+		holdPossible = true;
 		getNextTetromino();
+	}
+}
+
+function hold()
+{
+	if (! holdPossible)
+		return;
+
+	if (! holdTetromino)
+	{
+		holdTetromino = currentTetromino.index;
+		getNextTetromino();
+	}
+	else
+	{
+		var tempIndex = currentTetromino.index;
+		getNextTetromino(holdTetromino);
+		holdTetromino = tempIndex;
+	}
+
+	holdPossible = false;
 }
 
 function rotate()

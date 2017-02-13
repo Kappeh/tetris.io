@@ -3,7 +3,7 @@ var colours = [];
 
 var currentTetromino;
 
-var rotation4x4 = 
+var rotation4x4 =
 	[3, 7, 11, 15,
  	 2, 6, 10, 14,
  	 1, 5, 9, 13,
@@ -14,38 +14,38 @@ var rotation3x3 =
 	 1, 4, 7,
 	 0, 3, 6];
 
-var tetromino_Long = 
+var tetromino_Long =
 	[0, 0, 0, 0,
 	 1, 1, 1, 1,
 	 0, 0, 0, 0,
 	 0, 0, 0, 0];
 
-var tetromino_L = 
+var tetromino_L =
 	[1, 1, 1,
 	 1, 0, 0,
 	 0, 0, 0];
 
-var tetromino_J = 
+var tetromino_J =
 	[1, 1, 1,
 	 0, 0, 1,
 	 0, 0, 0];
 
-var tetromino_S = 
+var tetromino_S =
 	[0, 1, 1,
 	 1, 1, 0,
 	 0, 0, 0];
 
-var tetromino_Z = 
+var tetromino_Z =
 	[1, 1, 0,
 	 0, 1, 1,
 	 0, 0, 0];
 
-var tetromino_T = 
+var tetromino_T =
 	[0, 0, 0,
 	 1, 1, 1,
 	 0, 1, 0];
 
-var tetromino_Square = 
+var tetromino_Square =
 	[1, 1,
 	 1, 1];
 
@@ -77,8 +77,6 @@ var Tetromino = function(index)
 		this.size = 3;
 	else
 		this.size = 2;
-
-	currentTetromino = this;
 }
 Tetromino.prototype.draw = function()
 {
@@ -96,7 +94,7 @@ Tetromino.prototype.move = function(x, y)
 	if(isValidPosition(x + this.pos.x, y + this.pos.y, this.minos, this.size))
 	{
 		this.pos.x += x;
-		this.pos.y += y;	
+		this.pos.y += y;
 		return true;
 	}
 	return false;
@@ -128,15 +126,12 @@ Tetromino.prototype.destroy = function()
 	}
 }
 
-function getNextTetromino()
+function getNextTetromino(receivedIndex)
 {
-	if(currentTetromino)
-		currentTetromino.destroy();
-
 	testLines();
-	
-	var index = Math.floor(Math.random() * 7);
-	new Tetromino(index);
+
+	var index = receivedIndex ? receivedIndex : Math.floor(Math.random() * 7);
+	currentTetromino = new Tetromino(index);
 }
 
 var isValidPosition = function(posx, posy, minos, size)
