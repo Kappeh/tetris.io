@@ -1,6 +1,25 @@
+//Global variables
+//Width and height of canvas element
 var width = 1500, height = 800;
+//References to canvas element and canvas context
 var canvas, ctx;
+//Amount of frames per drop of tetromino
 var dropSpeed = 30;
+//Amount of frames since tetromino last dropped
+var currentFrame = 0;
+//Array containing which tiles are occupied
+var gridArray = [];
+//Score values
+var score;
+var lines;
+var highScore = 0;
+//Tetromino currently being help
+var holdTetromino;
+var holdPossible = true;
+//Tetromino queue
+var queue = [];
+//Current falling tetromino
+var currentTetromino;
 
 function createCanvas()
 {
@@ -8,16 +27,22 @@ function createCanvas()
 	canvas = document.createElement("canvas");
 	ctx = canvas.getContext("2d");
 
+	//Width and height of canvas
 	canvas.width = width;
 	canvas.height = height;
 
+	//Adds canvas element into DOM
 	document.body.appendChild(canvas);
-}
 
-var currentFrame = 0;
+	//Initializes game
+	init();
+	//30fps drawloop
+	setInterval(draw, 1000/30);
+}
 
 function draw()
 {
+	//Tests for gameover
 	if (gameOver)
 		reset();
 
@@ -53,6 +78,7 @@ function draw()
 		}
 	}
 
+	//Tests to see if drop should happen
 	currentFrame++;
 	if(currentFrame	> dropSpeed)
 	{
@@ -84,37 +110,40 @@ function draw()
 	ctx.fillText(": " + lines, 1130, 570);
 }
 
+//Draws a mino in the grid
 function drawMino(x, y, colour)
 {
 	ctx.drawImage(textures[colour], x * 30 + 600, y * 30 + 100, 30, 30);
 }
 
+//Draws the currently help mino
 function drawHeld(x, y, colour)
 {
 	ctx.drawImage(textures[colour], x * 30 + 450, y * 30 + 130, 30, 30);
 }
 
+//Draws minos in the queue
 function drawQueue(x, y, colour, index)
 {
 	ctx.drawImage(textures[colour], x * 30 + 930, y * 30 + index * 90 + 130, 30, 30);
 }
 
+//Draws the predictive shadow below a piece
 function drawShadow()
 {
 	const currMino = currentTetromino;
 	var offset = 0;
 
+	//Finds the biggest offset that has valid position
 	while (isValidPosition(currMino.pos.x, currMino.pos.y + offset, currMino.minos, currMino.size))
 		offset ++;
+	offset -= 1;
 
+	//Draws translucent tetromino at that offset
 	ctx.globalAlpha = 0.2;
-	currMino.draw(currMino.pos.x, currMino.pos.y + offset - 1);
+	currMino.draw(currMino.pos.x, currMino.pos.y + offset);
 	ctx.globalAlpha = 1;
 }
 
+//Creates canvas and starts game when window is loaded
 window.onload = createCanvas();
-
-//Initializes game
-init();
-//30fps drawloop
-setInterval(draw, 1000/30);

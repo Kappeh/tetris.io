@@ -1,19 +1,3 @@
-var gridArray = [];
-var score;
-var lines;
-var holdTetromino;
-var holdPossible = true;
-var queue = [];
-var highScore = 0;
-
-var keys =
-{
-	moveLeft: false,
-	moveRight: false,
-	rotate: false,
-	drop: false
-}
-
 function init()
 {
 	//initializes game
@@ -30,6 +14,7 @@ function init()
 
 	getNextTetromino();
 }
+
 // Will reset the game after a gameover
 function reset()
 {
@@ -41,6 +26,7 @@ function reset()
 	init();
 }
 
+//Returns the colour index, if any, of a mino in the grid
 function getGridState(x, y)
 {
 	//out of bound prevention
@@ -49,6 +35,7 @@ function getGridState(x, y)
 	return null;
 }
 
+//Sets the colour of a mino in the grid
 function setGridState(x, y, value)
 {
 	//out of bound prevention
@@ -60,7 +47,7 @@ function setGridState(x, y, value)
 	return false;
 }
 
-//listenes for keypress
+//Listeners for keypress events
 window.addEventListener("keydown", function(e){
 	keyUpdate(e, true);
 }, false);
@@ -96,96 +83,132 @@ function keyUpdate(e, state)
 			right();
 	}
 	else if (e.keyCode == 32){
+		//Space has been pressed
 		hold();
 	}
 }
 
+//Moves currentTetromino down one square
 function drop()
 {
+	//Tries to move currentTetromino down a tile
 	if(!currentTetromino.move(0, 1))
 	{
+		//If try failed (due to invalid position)
+		//Destroy currentTetromino
 		if(currentTetromino)
 			currentTetromino.destroy();
 
+		//Reset holdPossible value
 		holdPossible = true;
+		//Spawns nextTetromino
 		getNextTetromino();
 	}
 }
 
+//Swaps piece in hold and current
 function hold()
 {
+	//If not possible, exit function
 	if (!holdPossible)
 		return;
 
+	//Checks if tetromino is being held
 	if (!holdTetromino)
 	{
+		//If hold slot is empty
+		//Holds current tetromino
 		holdTetromino = currentTetromino;
 		holdTetromino.reset();
+		//Spawns a new tetromino
 		getNextTetromino();
 	}
 	else
 	{
+		//If tetromino is in hold slot
+		//Holds current tetromino
 		var temp = currentTetromino;
 		temp.reset();
+		//Respawns tetromino from hold
 		getNextTetromino(holdTetromino.index);
 		holdTetromino = temp;
 	}
 
+	//Updates values
 	holdTetromino.type = 1;
 	holdPossible = false;
 }
 
+//Tries to rotate current falling tetromino
 function rotate()
 {
 	currentTetromino.rotate();
 }
 
+//Tries to move current falling tetromino
 function right()
 {
 	currentTetromino.move(1, 0);
 }
-
 function left()
 {
 	currentTetromino.move(-1, 0);
 }
 
+//Tests for horizontal lines that are full
 function testLines()
 {
+	//Resets counter
 	var lineCount = 0;
 	for(var y = 0;y < 20;y++)
 	{
+		//For all lines, assume full
 		var line = true;
 
 		for(var x = 0;x < 10;x++)
 		{
+			//For all slots in row, test if empty
 			if(getGridState(x, y) == 0)
 			{
+				//If empty, declare not full
 				line = false;
 				break;
 			}
 		}
 
+		//If line is full after all tests
 		if(line)
 		{
+			//Breaks the line and increments line count
 			lineCount++;
 			breakLine(y);
 		}
 	}
+
+	//Updates scores
 	score += getScore(lineCount);
 	if (score > highScore) highScore = score;
 	lines += lineCount;
 }
 
+//Empties a line and moves everything above it down
 function breakLine(line)
 {
 	for(var y = line;y > 0;y -= 1)
 	{
+		//For all lines fron current line to top line,
+		//for all slots in row,
+		//set self to value of slot above
 		for(var x = 0;x < 10;x ++)
 			setGridState(x, y, getGridState(x, y - 1));
 	}
 }
 
+//Returns value for amount of lines cleared
+//1 line = 100 points
+//2 line = 200 points
+//3 line = 400 points
+//4 line = 800 points
 function getScore(lines)
 {
 	var value = 0;
