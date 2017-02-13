@@ -56,7 +56,7 @@ function draw()
 		{
 			var index = getGridState(x, y);
 			if(index)
-				drawMino(x, y, tetrominoColours[index - 1]);
+				drawMino(x, y, index - 1);
 		}
 	}
 
@@ -91,20 +91,17 @@ function draw()
 
 function drawMino(x, y, colour)
 {
-	ctx.fillStyle = colour;
-	ctx.fillRect(x * 30 + 600, y * 30 + 100, 30, 30);
+	ctx.drawImage(textures[colour], x * 30 + 600, y * 30 + 100, 30, 30);
 }
 
 function drawHeld(x, y, colour)
 {
-	ctx.fillStyle = colour;
-	ctx.fillRect(x * 30 + 450, y * 30 + 130, 30, 30);
+	ctx.drawImage(textures[colour], x * 30 + 450, y * 30 + 130, 30, 30);
 }
 
 function drawQueue(x, y, colour, index)
 {
-	ctx.fillStyle = colour;
-	ctx.fillRect(x * 30 + 930, y * 30 + index * 90 + 130, 30, 30);
+	ctx.drawImage(textures[colour], x * 30 + 930, y * 30 + index * 90 + 130, 30, 30);
 }
 
 window.onload = createCanvas();

@@ -1,6 +1,3 @@
-//colours for different tetrominos
-var colours = [];
-
 var currentTetromino;
 
 var rotation4x4 =
@@ -49,6 +46,14 @@ var tetromino_Square =
 	[1, 1,
 	 1, 1];
 
+var textures = [];
+for(var x = 0;x < 7;x++)
+{
+	var image = new Image();
+	image.src = "./minos/mino" + x + ".png";
+	textures.push(image);
+}
+
 var tetrominos = [tetromino_Long, tetromino_L, tetromino_J, tetromino_S, tetromino_Z, tetromino_T, tetromino_Square];
 var tetrominoColours = ["#f55", "#5f5", "#55f", "#ff5", "#f5f", "#5ff", "#555"];
 
@@ -65,7 +70,6 @@ var Tetromino = function(index, type)
 	this.index = index;
 
 	this.minos = tetrominos[this.index];
-	this.colour = tetrominoColours[this.index];
 
 	if(index == 0)
 		this.rotationMatrix = rotation4x4;
@@ -90,11 +94,11 @@ Tetromino.prototype.draw = function()
 			if(this.minos[y * this.size + x])
 			{
 				if(this.type == 0)
-					drawMino(this.pos.x + x, this.pos.y + y, this.colour);
+					drawMino(this.pos.x + x, this.pos.y + y, this.index);
 				else if(this.type == 1)
-					drawHeld(x, y, this.colour);
+					drawHeld(x, y, this.index);
 				else
-					drawQueue(x, y, this.colour, this.type - 2);
+					drawQueue(x, y, this.index, this.type - 2);
 			}
 		}
 	}
