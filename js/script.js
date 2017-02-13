@@ -18,6 +18,9 @@ var currentFrame = 0;
 
 function draw()
 {
+	if (gameOver)
+		reset();
+
 	//Clears out last frame
 	ctx.fillStyle = "#111";
 	ctx.fillRect(0, 0, width, height);
@@ -89,7 +92,7 @@ function drawHeld(x, y, colour)
 function drawQueue(x, y, colour, index)
 {
 	ctx.fillStyle = colour;
-	ctx.fillRect(x * 30 + 930, y * 30 + index * 90 + 130, 30, 30);	
+	ctx.fillRect(x * 30 + 930, y * 30 + index * 90 + 130, 30, 30);
 }
 
 window.onload = createCanvas();

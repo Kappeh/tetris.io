@@ -4,6 +4,7 @@ var lines;
 var holdTetromino;
 var holdPossible = true;
 var queue = [];
+var highScore = 0;
 
 var keys =
 {
@@ -22,11 +23,22 @@ function init()
 
 	score = 0;
 	lines = 0;
+	gameOver = false;
 
 	for(var x = 2;x < 5;x++)
 		queue.push(new Tetromino(Math.floor(Math.random() * 7), x));
 
 	getNextTetromino();
+}
+// Will reset the game after a gameover
+function reset()
+{
+	holdTetromino = null;
+	holdPossible = true;
+	queue = [];
+	gridArray = [];
+
+	init();
 }
 
 function getGridState(x, y)
@@ -161,6 +173,7 @@ function testLines()
 		}
 	}
 	score += getScore(lineCount);
+	if (score > highScore) highScore = score;
 	lines += lineCount;
 }
 

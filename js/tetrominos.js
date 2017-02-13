@@ -158,7 +158,7 @@ function getNextTetromino(receivedIndex)
 	currentTetromino = queue[0];
 	queue[0] = queue[1];
 	queue[1] = queue[2];
-	
+
 	var index = Math.floor(Math.random() * 7);
 	queue[2] = new Tetromino(index, 4);
 
@@ -166,6 +166,9 @@ function getNextTetromino(receivedIndex)
 	queue[0].type = 2;
 	queue[1].type = 3;
 	queue[2].type = 4;
+
+	if (!isValidPosition(currentTetromino.pos.x, currentTetromino.pos.y, currentTetromino.minos, currentTetromino.size))
+		gameOver = true
 }
 
 var isValidPosition = function(posx, posy, minos, size)
