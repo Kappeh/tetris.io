@@ -212,6 +212,10 @@ function testLines()
 	score += getScore(lineCount);
 	if (score > highScore) highScore = score;
 	lines += lineCount;
+
+	level = Math.floor(lines / 10);
+	if(level >= dropSpeeds.length)
+		level = dropSpeeds.length - 1;
 }
 
 //Empties a line and moves everything above it down

@@ -22,6 +22,9 @@ var queue = [];
 var currentTetromino;
 //Game is paused
 var paused = false;
+//Level speeds
+var dropSpeeds = [30, 25, 20, 15, 10, 5, 1];
+var level = 0;
 
 function createCanvas()
 {
@@ -105,7 +108,7 @@ function draw()
 	{
 		//Tests to see if drop should happen
 		currentFrame++;
-		if(currentFrame	> dropSpeed)
+		if(currentFrame	> dropSpeeds[level])
 		{
 			currentFrame = 0;
 			drop();
