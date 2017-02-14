@@ -25,6 +25,8 @@ var paused = false;
 //Level speeds
 var dropSpeeds = [30, 25, 20, 15, 10, 5, 1];
 var level = 0;
+// Reset timer for the game over text
+var resetTextTimer = 100;
 
 function createCanvas()
 {
@@ -86,6 +88,9 @@ function draw()
 	currentTetromino.draw();
 	//Draws current piece's shadow
 	drawShadow();
+	// Draws game over text
+	if (!resetTextTimer || resetTextTimer < 100)
+		drawGameOverText();
 	//Draws held piece
 	if(holdTetromino)
 		holdTetromino.draw();
@@ -117,7 +122,8 @@ function draw()
 	}
 	else
 	{
-		ctx.fillText("Paused!", 696, 300);
+		var displayText = "Paused!"
+		ctx.fillText(displayText, 750 - ctx.measureText(displayText).width / 2, 400);
 	}
 }
 
@@ -125,6 +131,22 @@ function draw()
 function drawMino(x, y, colour)
 {
 	ctx.drawImage(textures[colour], x * 30 + 600, y * 30 + 100, 30, 30);
+}
+
+// Draws the game over text to the screen
+function drawGameOverText()
+{
+	const displayText = "Game over";
+	const textPos = {
+		x : 750 - ctx.measureText(displayText).width / 2,
+		y : 400 - resetTextTimer
+	};
+
+	ctx.globalAlpha = 1 - (1 / 100 * resetTextTimer);
+	ctx.fillText(displayText, textPos.x, textPos.y);
+	ctx.globalAlpha = 1;
+
+	resetTextTimer += 2;
 }
 
 //Draws the currently help mino

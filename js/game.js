@@ -24,6 +24,7 @@ function reset()
 	holdPossible = true;
 	queue = [];
 	gridArray = [];
+	resetTextTimer = 0;
 
 	init();
 }
