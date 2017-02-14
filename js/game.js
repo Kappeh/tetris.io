@@ -61,31 +61,36 @@ function keyUpdate(e, state)
 	if(e.keyCode == 87 || e.keyCode == 38)
 	{
 		//W or Up has been pressed
+		//Rotate piece
 		if(state && !paused)
 			rotate();
 	}
 	else if(e.keyCode == 65 || e.keyCode == 37)
 	{
 		//A or Left has been pressed
+		//Move piece left
 		if(state && !paused)
 			left();
 	}
 	else if(e.keyCode == 83 || e.keyCode == 40)
 	{
 		//S or Down has been pressed
+		//Drop piece
 		if(state && !paused)
 			drop();
 	}
 	else if(e.keyCode == 68 || e.keyCode == 39)
 	{
 		//D or Right has been pressed
+		//Move piece right
 		if(state && !paused)
 			right();
 	}
 	else if (e.keyCode == 32){
 		//Space has been pressed
-		if(state && !paused)
-			hold();
+		//Hard drop
+		if(state)
+			hardDrop();
 	}
 	else if(e.keyCode == 27)
 	{
@@ -93,6 +98,13 @@ function keyUpdate(e, state)
 		//Toggle pause state
 		if(state)
 			paused = !paused;
+	}
+	else if(e.keyCode == 16)
+	{
+		//Shift has been pressed
+		//Hold piece
+		if(state && !paused)
+			hold();
 	}
 }
 
@@ -111,7 +123,10 @@ function drop()
 		holdPossible = true;
 		//Spawns nextTetromino
 		getNextTetromino();
+
+		return false;
 	}
+	return true;
 }
 
 //Swaps piece in hold and current

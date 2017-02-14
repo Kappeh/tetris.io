@@ -100,7 +100,7 @@ function draw()
 				drawMino(x, y, index - 1);
 		}
 	}
-	
+
 	if(!paused)
 	{
 		//Tests to see if drop should happen
@@ -151,6 +151,11 @@ function drawShadow()
 	ctx.globalAlpha = 0.2;
 	currMino.draw(currMino.pos.x, currMino.pos.y + offset);
 	ctx.globalAlpha = 1;
+}
+
+function hardDrop()
+{
+	while(drop());
 }
 
 //Creates canvas and starts game when window is loaded
