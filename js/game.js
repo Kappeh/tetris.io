@@ -12,6 +12,8 @@ function init()
 	for(var x = 2;x < 5;x++)
 		queue.push(new Tetromino(Math.floor(Math.random() * 7), x));
 
+	level = 0;
+
 	getNextTetromino();
 }
 
