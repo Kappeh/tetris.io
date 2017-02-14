@@ -20,6 +20,8 @@ var holdPossible = true;
 var queue = [];
 //Current falling tetromino
 var currentTetromino;
+//Game is paused
+var paused = false;
 
 function createCanvas()
 {
@@ -65,26 +67,17 @@ function draw()
 	ctx.lineTo(600, 100);
 	ctx.stroke();
 
-	ctx.strokeStyle = "#555";
+	//Draw scores
+	ctx.fillStyle = "#fff";
+	ctx.font = "30px Arial";
 
-	//Draws dropped pieces
-	for(var x = 0;x < 10;x++)
-	{
-		for(var y = 0;y < 20;y++)
-		{
-			var index = getGridState(x, y);
-			if(index)
-				drawMino(x, y, index - 1);
-		}
-	}
+	ctx.fillText("High Score", 930, 490);
+	ctx.fillText("Current Score", 930, 530);
+	ctx.fillText("Lines", 930, 570);
 
-	//Tests to see if drop should happen
-	currentFrame++;
-	if(currentFrame	> dropSpeed)
-	{
-		currentFrame = 0;
-		drop();
-	}
+	ctx.fillText(": " + highScore, 1130, 490);
+	ctx.fillText(": " + score, 1130, 530);
+	ctx.fillText(": " + lines, 1130, 570);
 
 	//Draws dropping piece
 	currentTetromino.draw();
@@ -97,17 +90,32 @@ function draw()
 	for(var x = 0;x < 3;x++)
 		queue[x].draw();
 
-	//Draw scores
-	ctx.fillStyle = "#fff";
-	ctx.font = "30px Arial";
+	//Draws dropped pieces
+	for(var x = 0;x < 10;x++)
+	{
+		for(var y = 0;y < 20;y++)
+		{
+			var index = getGridState(x, y);
+			if(index)
+				drawMino(x, y, index - 1);
+		}
+	}
+	
+	if(!paused)
+	{
+		//Tests to see if drop should happen
+		currentFrame++;
+		if(currentFrame	> dropSpeed)
+		{
+			currentFrame = 0;
+			drop();
+		}
 
-	ctx.fillText("High Score", 930, 490);
-	ctx.fillText("Current Score", 930, 530);
-	ctx.fillText("Lines", 930, 570);
-
-	ctx.fillText(": " + highScore, 1130, 490);
-	ctx.fillText(": " + score, 1130, 530);
-	ctx.fillText(": " + lines, 1130, 570);
+	}
+	else
+	{
+		ctx.fillText("Paused!", 696, 300);
+	}
 }
 
 //Draws a mino in the grid

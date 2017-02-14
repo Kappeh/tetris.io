@@ -1,4 +1,4 @@
-//Matricies used to rotate tetromino
+ //Matricies used to rotate tetromino
 var rotation4x4 =
 	[12, 8, 4, 0,
  	 13, 9, 5, 1,

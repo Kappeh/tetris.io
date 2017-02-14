@@ -61,30 +61,38 @@ function keyUpdate(e, state)
 	if(e.keyCode == 87 || e.keyCode == 38)
 	{
 		//W or Up has been pressed
-		if(state)
+		if(state && !paused)
 			rotate();
 	}
 	else if(e.keyCode == 65 || e.keyCode == 37)
 	{
 		//A or Left has been pressed
-		if(state)
+		if(state && !paused)
 			left();
 	}
 	else if(e.keyCode == 83 || e.keyCode == 40)
 	{
 		//S or Down has been pressed
-		if(state)
+		if(state && !paused)
 			drop();
 	}
 	else if(e.keyCode == 68 || e.keyCode == 39)
 	{
 		//D or Right has been pressed
-		if(state)
+		if(state && !paused)
 			right();
 	}
 	else if (e.keyCode == 32){
 		//Space has been pressed
-		hold();
+		if(state && !paused)
+			hold();
+	}
+	else if(e.keyCode == 27)
+	{
+		//Esc has been pressed
+		//Toggle pause state
+		if(state)
+			paused = !paused;
 	}
 }
 
